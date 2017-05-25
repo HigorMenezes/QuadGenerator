@@ -40,7 +40,7 @@ function QuadGenerator:getQuad(quadName, quadId)
 	local x = r.margin + (r.spacing + r.width)*column
 	local y = r.margin + (r.spacing + r.height)*line
 
-	return ({img = r.img, quad = love.graphics.newQuad(x, y, r.width, r.height, r.img:getDimensions())})
+	return r.img, love.graphics.newQuad(x, y, r.width, r.height, r.img:getDimensions())
 end
 
 
