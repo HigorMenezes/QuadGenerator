@@ -14,15 +14,16 @@ function QuadGenerator:create(param)
 	--assert((param.quadName == nil), "quadName is nil")
 	quad.name = param.quadName
 	--assert(param.img == nil, "img is nil")
-	quad.img = love.graphics.newImage(param.imgFile)
+	quad.img = love.graphics.newImage(param.imageFile)
 	quad.margin = param.margin or 0
 	quad.spacing = param.spacing or 0
 	--assert(param.img == nil, "width is nil")
-	quad.width = param.width
+	quad.tileWidth = param.tileWidth
 	--assert(param.img == nil, "Height is nil")
-	quad.height = param.height
-	quad.tilesLine = ((quad.img:getWidth() - quad.margin)/(quad.width+quad.spacing))
-	quad.tilesColumn = ((quad.img:getHeight() - quad.margin)/(quad.height+quad.spacing))
+	quad.tileHeight = param.tileHeight
+	quad.tilesColumn = ((quad.img:getWidth() - quad.margin)/(quad.tileWidth+quad.spacing))
+	quad.tilesLine = ((quad.img:getHeight() - quad.margin)/(quad.tileHeight+quad.spacing)) + 1
+	print(quad.tilesLine, quad.tilesColumn)
 	quad.quads = {}
 	setmetatable(quad.quads, metTable)
 
@@ -35,12 +36,12 @@ function QuadGenerator:getQuad(quadName, quadId)
 	local r = quads["quadName"]
 
 	local column = (quadId - 1)%r.tilesColumn
-	local line = math.floor((quadId - 1)/r.tilesLine)
+	local line = math.floor((quadId - 1)/r.tilesColumn)
 
-	local x = r.margin + (r.spacing + r.width)*column
-	local y = r.margin + (r.spacing + r.height)*line
+	local x = r.margin + (r.spacing + r.tileWidth)*column
+	local y = r.margin + (r.spacing + r.tileHeight)*line
 
-	return r.img, love.graphics.newQuad(x, y, r.width, r.height, r.img:getDimensions())
+	return r.img, love.graphics.newQuad(x, y, r.tileWidth, r.tileHeight, r.img:getDimensions())
 end
 
 

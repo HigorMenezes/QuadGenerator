@@ -1,16 +1,16 @@
 local quadGenerator = require("QuadGenerator")
 
 function love.load()
-	quadGenerator:create({quadName = "test1", imgFile = "img/quad1.png", width = 21, height = 21, margin = 2, spacing = 2})
-	quadGenerator:create({quadName = "test2", imgFile = "img/quad1.png", width = 21, height = 21, margin = 2, spacing = 2})
+	quadGenerator:create({quadName = "test1", imageFile = "img/map2.png", tileWidth = 70, tileHeight = 70, margin = 0, spacing = 0})
+	quadGenerator:create({quadName = "test2", imageFile = "img/map2.png", tileWidth = 70, tileHeight = 70, margin = 0, spacing = 0})
 end
 
 function love.update(dt)
 end
 
 function love.draw()
-	imagem, quad = quadGenerator:getQuad("test1", 20)
+	imagem, quad = quadGenerator:getQuad("test1", 14)
 	love.graphics.draw( imagem, quad, 40, 40)
-	imagem, quad = quadGenerator:getQuad("test2", 168)
-	love.graphics.draw( imagem, quad, 80, 80, 0, 2, 2)
+	--[[imagem, quad = quadGenerator:getQuad("test2", 20)
+			love.graphics.draw( imagem, quad, 200, 200)]]
 end
