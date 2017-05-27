@@ -1,7 +1,5 @@
 local QuadGenerator = {}
 
-local quads = {}
-
 local metTable = {
 	__index = function (self, key) 
 		self[key] = createQuad(self, key)
@@ -9,42 +7,41 @@ local metTable = {
 	end
 }
 
-function QuadGenerator:create(param)
-	local quad = {}
-	--assert((param.quadName == nil), "quadName is nil")
-	--assert(param.img == nil, "img is nil")
-	--assert(param.img == nil, "width is nil")
-	--assert(param.img == nil, "Height is nil")
-	quad.name = param.quadName
-	quad.img = love.graphics.newImage(param.imageFile)
-	quad.img:setFilter("nearest", "nearest")
-	quad.margin = param.margin or 0
-	quad.spacing = param.spacing or 0
-	quad.tileWidth = param.tileWidth
-	quad.tileHeight = param.tileHeight
-	quad.tilesColumn = ((quad.img:getWidth() - quad.margin)/(quad.tileWidth+quad.spacing))
-	quad.tilesLine = ((quad.img:getHeight() - quad.margin)/(quad.tileHeight+quad.spacing)) + 1
-	quad.quads = {}
+function QuadGenerator.create(firstId, imageFile, tileWidth, tileHeight, margin, spacing)
+	local sSheet = {}
+	--assert((quadName == nil), "quadName is nil")
+	--assert(img == nil, "img is nil")
+	--assert(img == nil, "width is nil")
+	--assert(img == nil, "Height is nil")
+	sSheet.firstId = firstId or 1
+	sSheet.img = love.graphics.newImage(imageFile)
+	sSheet.img:setFilter("nearest", "nearest")
+	sSheet.tileWidth = tileWidth
+	sSheet.tileHeight = tileHeight
+	sSheet.margin = margin or 0
+	sSheet.spacing = spacing or 0
 
-	quad.quads.quad = quad
-	setmetatable(quad.quads, metTable)
-	quads["quadName"] = quad
-end
+	sSheet.tilesColumn = ((sSheet.img:getWidth() - sSheet.margin)/(sSheet.tileWidth+sSheet.spacing))
+	sSheet.tilesLine = ((sSheet.img:getHeight() - sSheet.margin)/(sSheet.tileHeight+sSheet.spacing)) + 1
 
-function QuadGenerator:getQuad(quadName, quadId)
-	--assert(quadName == nil, "quadName is nil")
-	--assert(quadId == nil, "quadId is nil")
-	local quad = quads["quadName"].quads[quadId]
-	local img = quads["quadName"].img
+	sSheet.quads = {}
+	sSheet.quads.sSheet = sSheet
+	setmetatable(sSheet.quads, metTable)
 
-	return img, quad
+	function sSheet:getQuad(quadId)
+		--assert(quadId == nil, "quadId is nil")
+		quadId = quadId - self.firstId
+		return self.img, self.quads[quadId]
+	end
+
+	return sSheet
 end
 
 function createQuad(quads, quadId)
-	r = quads.quad
+	r = quads.sSheet
 
-	local column = (quadId - 1)%r.tilesColumn
-	local line = math.floor((quadId - 1)/r.tilesColumn)
+	local column = (quadId)%r.tilesColumn
+	local line = math.floor((quadId)/r.tilesColumn)
 
 	local x = r.margin + (r.spacing + r.tileWidth)*column
 	local y = r.margin + (r.spacing + r.tileHeight)*line
