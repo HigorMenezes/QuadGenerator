@@ -2,8 +2,7 @@ local quadGenerator = require("QuadGenerator")
 
 function love.load()
 	--(firstId, imageFile, tileWidth, tileHeight, margin, spacing)
-	test1 = quadGenerator.create(1, 70, 70, 0, 0)
-	test2 = quadGenerator.create(1, "img/map2.png", 70, 70, 0, 0)
+	test1 = quadGenerator.create(1, "img/map2.png", 70, 70, 0, 0)
 end
 
 function love.update(dt)
