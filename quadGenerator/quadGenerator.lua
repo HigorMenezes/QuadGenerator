@@ -9,10 +9,6 @@ local metTable = {
 
 function QuadGenerator.create(firstId, imageFile, tileWidth, tileHeight, margin, spacing)
 	local sSheet = {}
-	--assert((quadName == nil), "quadName is nil")
-	--assert(img == nil, "img is nil")
-	--assert(img == nil, "width is nil")
-	--assert(img == nil, "Height is nil")
 	sSheet.firstId = firstId or 1
 	sSheet.img = love.graphics.newImage(imageFile)
 	sSheet.img:setFilter("nearest", "nearest")
@@ -22,14 +18,12 @@ function QuadGenerator.create(firstId, imageFile, tileWidth, tileHeight, margin,
 	sSheet.spacing = spacing or 0
 
 	sSheet.tilesColumn = ((sSheet.img:getWidth() - sSheet.margin)/(sSheet.tileWidth+sSheet.spacing))
-	sSheet.tilesLine = ((sSheet.img:getHeight() - sSheet.margin)/(sSheet.tileHeight+sSheet.spacing)) + 1
 
 	sSheet.quads = {}
 	sSheet.quads.sSheet = sSheet
 	setmetatable(sSheet.quads, metTable)
 
 	function sSheet:getQuad(quadId)
-		--assert(quadId == nil, "quadId is nil")
 		quadId = quadId - self.firstId
 		return self.img, self.quads[quadId]
 	end
