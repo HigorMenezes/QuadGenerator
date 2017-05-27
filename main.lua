@@ -11,6 +11,6 @@ end
 function love.draw()
 	imagem, quad = quadGenerator:getQuad("test1", 14)
 	love.graphics.draw( imagem, quad, 40, 40)
-	--[[imagem, quad = quadGenerator:getQuad("test2", 20)
-			love.graphics.draw( imagem, quad, 200, 200)]]
+	imagem, quad = quadGenerator:getQuad("test2", 14)
+	love.graphics.draw( imagem, quad, 200, 200)
 end
